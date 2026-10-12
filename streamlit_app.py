@@ -13,7 +13,12 @@ load_dotenv()
 #todo 1:定义函数,返回检索器
 def get_retriever():
 	#1.定义Embeddings
-	embedding = OpenAIEmbeddings()
+	embedding = OpenAIEmbeddings(
+		model="BAAI/bge-large-zh-v1.5",
+		api_key=os.getenv("SILICONFLOW_API_KEY"),
+		base_url="https://api.siliconflow.cn/v1",
+		check_embedding_ctx_length=False
+	)
 	#2.向量数据库持久化路径
 	persist_directory ="./data_base/vector_db/chroma"
 	#3.加载数据库
@@ -137,3 +142,6 @@ def main():
 		with messages.chat_message("ai"):
 			output = st.write_stream(answer)
 			st.session_state.messages.append(("ai",output))
+
+if __name__ == '__main__':
+    main()
