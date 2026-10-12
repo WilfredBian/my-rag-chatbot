@@ -123,17 +123,17 @@ def main():
 		with messages.chat_message(message[0]):
 			st.write(message[1])#message[1]是打印对话具体文字内容内容
 
-		if prompt :=st.chat_input("Say something"):
-			# 将用户输入添加到对话历史中
-			st.session_state.messages.append(("human",prompt))
-			# 显示当前用户输入
-			with messages.chat_message("human"):
-				st.write("prompt")
-			answer = gen_response(
-				chain = st.session_state.qa_history_chain,
-				input = prompt,
-				chat_history = st.session_state.messages
-			)
-			with messages.chat_message("ai"):
-				output = st.write_stream(answer)
-				st.session_state.messages.append(("ai",output))
+	if prompt :=st.chat_input("Say something"):
+		# 将用户输入添加到对话历史中
+		st.session_state.messages.append(("human",prompt))
+		# 显示当前用户输入
+		with messages.chat_message("human"):
+			st.write(prompt)
+		answer = gen_response(
+			chain = st.session_state.qa_history_chain,
+			input = prompt,
+			chat_history = st.session_state.messages
+		)
+		with messages.chat_message("ai"):
+			output = st.write_stream(answer)
+			st.session_state.messages.append(("ai",output))
